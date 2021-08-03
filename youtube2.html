@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRENDING SECTION</title>
+    <style>
+        #query{
+            height:35px;
+            width: 400px;
+            font-size: 20px;
+             font-weight: 600;
+             border-radius: 5px;
+             border-color:rgb(6, 6, 105);
+             background-color: rgba(236, 228, 228, 0.952);
+           
+           
+           
+        }
+        button{
+            height:40px;
+            width: 120px;
+            font-size: 20px;
+            color:black;
+            border-radius: 5px;
+            background-color: rgba(236, 228, 228, 0.952);
+            
+            
+            
+        }
+        .whole{
+            display: grid;
+            height: 30vh;
+            width: 100%;  
+             
+            justify-content: center;
+        }
+       body{
+           background-color: black;
+       } 
+    </style>
+
+</head>
+<body>
+    <div class="whole"> 
+     <h1 style="color:red; margin-bottom: -3px;">Youtube</h1>
+     <input type="text" id="query" placeholder="Search"/>
+    <button>search</button>
+    
+    </div>
+    <div id="videos">
+    </div>
+ 
+    
+</body>
+</html>
+<script>
+var video_div=document.getElementById("videos");
+async function result()
+{ 
+    video_div.innerHTML=null;
+       
+       var details=document.getElementById("details"); 
+       var q=document.getElementById("query").value;
+       let response= await fetch(`https://youtube.googleapis.com/youtube/v3/videos?part=contentDetails&chart=mostPopular&regionCode=IN&maxResults=10&key=AIzaSyDv7NzPxY8VoQ4pPafp6JNDo1sR5uQu57Y`);
+       let data=await response.json();
+       console.log("data:",data);
+      
+       let{ items } =data;   
+       console.log(items);
+       items.forEach(({id}) => {
+       var div=document.createElement('div');
+       div.innerHTML=`<iframe width="300" height="200" src="https://www.youtube.com/embed/${id}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+
+       video_div.appendChild(div);
+       video_div.setAttribute("style","display:grid;grid-template-columns: repeat(4,20%);gap:5%");
+       });
+}
+result();
+</script>
